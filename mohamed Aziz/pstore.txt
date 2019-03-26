@@ -1,0 +1,28 @@
+create database pstore;
+use pstore;
+
+create table product (p_id  int(11) primary key auto_increment,p_name varchar(20) ,p_description varchar(255),p_price float
+,pr_br_fk int(11) references product_brand(b_id),pr_cr_fk int(11) references product_category(c_id));
+
+insert into product values(1,"pencil","nice thicket pencil",12.50,1003,102);
+insert into product values(2,"thinkpad","nice laptop",500000,1004,104);
+insert into product values(3,"redmi4","nice china apple",5000,1002,101);
+
+
+create table product_category(c_id int(11) primary key auto_increment,c_name varchar(20));
+insert into product_category values(101,"mobile");
+insert into product_category values(102,"art");
+insert into product_category values(103,"decoration");
+insert into product_category values(104,"laptop");
+
+
+create table product_brand(b_id int(11) primary key auto_increment,
+b_name varchar(20));
+insert into product_brand values(1001,"philip");
+insert into product_brand values(1002,"mi");
+insert into product_brand values(1003,"apsara");
+insert into product_brand values(1004,"apple");
+
+
+select p.*,c.*,b.*  from product p join product_category c join  product_brand b on p.pr_br_fk=b.b_id and c.c_id=pr_cr_fk
+

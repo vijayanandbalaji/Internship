@@ -1,0 +1,207 @@
+
+step 0: create maven prject with spring and hibernate dependency
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>sample-project</groupId>
+  <artifactId>sample</artifactId>
+  
+  <packaging>war</packaging>
+  
+  <version>0.1</version>
+	<name>Spring MVC Sample App</name>
+	<properties>
+		<!-- Generic properties -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<!-- SPRING & HIBERNATE / JPA -->
+		<spring.version>5.0.2.RELEASE</spring.version>
+		<hibernate.version>5.2.17.Final</hibernate.version>
+	</properties>
+
+  	<dependencies>
+		<!-- spring dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- jstl dependency -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- javax servlet api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>3.0-alpha-1</version>
+		</dependency>
+		<!-- Logging Framework -->
+    	<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+			<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+				<!-- JPA Vendor -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<!-- IN MEMORY Database and JDBC Driver -->
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.7</version>
+		</dependency>
+		<!-- MySQL JDBC Driver 
+		<dependency>
+			<groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<version>5.1.47</version>
+		</dependency> -->
+  </dependencies>
+
+  <build>
+  <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+  </build>
+</project>
+
+
+-----------------------pom.xml---------------------------------------------------------
+
+install the mysql.jar in local pom repo.I have  .jar in d: drive.
+mvn install:install-file -Dfile=D:\mysql-connector-java-5.1.9.jar -DgroupId=com.mysql -DartifactId=mysql -Dversion=5.1.9 -Dpackaging=jar
+
+
+step 1 
+Add below config in app-servlet.xml
+
+ <context:component-scan base-package="com.cognizant.grizzlestore" />
+    <context:annotation-config />
+
+    <!-- Resolves Views Selected For Rendering by @Controllers to *.jsp Resources in the /WEB-INF/ Folder -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/pstore" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+ 
+<!-- if want to work with im memeory db 
+     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem://sampleDb" />
+		<property name="username" value="sa" />
+		<property name="password" value="" /> 
+	</bean>  --> 
+    <bean id="entityManagerFactory" 
+			class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+			p:packagesToScan="com.cognizant.grizzlestore.model"
+            p:dataSource-ref="dataSource"
+			>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="true" />
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+    <!-- Transactions -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+    <!-- enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+step:2 
+
+       2.create all model classes with @Entity ,@Id,
+        
+        @ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="fk_address_id")
+	private Address address;
+             --------------for FK in db ...java has @ManyToOne
+
+           use @OneToOne,@ManyToOne,@OnerToMany,@ManyToMany based on realtionships.
+
+
+       3. create dao with entitymanger call persist(),merge(),remove(),list()
+       3. @Trascational for persist(),merge(),remove() to implement transaction.
+       4. call the dao in controller 
+
+(do Autowire for dao Object,and @service() to inject in controller,In controller use service object injection)
+
+	
+
+step 3 : implement dao below 
+import org.apache.log4j.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+private static Logger log = Logger.getLogger(UserDaoImpl.class);
+
+	@PersistenceContext
+	private EntityManager em;
+
+
+step 4 : run the application
+
+
+
+
+if you get any error related to building EntityManagerFactory....error with model classes yopu forget annotations,or url db name is wrong in xml file
+where to scan for entities the app-servlet.xml has the class scan info...which scanned by spring.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

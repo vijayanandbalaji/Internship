@@ -1,0 +1,10 @@
+ <proxies>
+        <proxy>
+            <active>true</active>
+            <protocol>http</protocol>
+            <host>proxy.cognizant.com</host>
+            <port>6050</port>        
+            <username>t-Ahmed1</username>
+            <password>sdasdasdas</password>    
+        </proxy>
+    </proxies>

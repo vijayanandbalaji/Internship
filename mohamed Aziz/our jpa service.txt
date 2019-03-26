@@ -1,0 +1,115 @@
+package com.cognizant.grizzlestore.jpa;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import com.cognizant.grizzlestore.model.LoginDetails;
+import com.cognizant.grizzlestore.model.ProductDetails;
+import com.cognizant.grizzlestore.service.IGrrizzleStore;
+import com.cognizant.grizzlestore.util.JpaUtil;
+import com.cogznizant.grizzlestore.exception.GrizzleException;
+
+public class GrizzleDao implements IGrrizzleStore {
+
+	public GrizzleDao() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	private EntityManager entityManager=null;
+	
+	@Override
+	public int checkUserDetails(LoginDetails loginDetails) throws GrizzleException {
+		// TODO Auto-generated method stub
+		int flag=0;
+		entityManager=JpaUtil.getEntityManger();
+		String hql="Select l.username , l.password from LoginDetails l where l.username=? and l.password=? ";
+		Query query=	entityManager.createQuery(hql);
+		query.setParameter(0, loginDetails.getUsername());
+		query.setParameter(1, loginDetails.getPassword());
+
+		System.out.println("Resuklt"+query.getSingleResult());
+		List<Object[]> l=  query.getResultList();
+		
+		if(l!=null) {
+			System.out.println("Logged in");
+			flag=1;
+			
+		}else {
+			System.out.println("User not available");
+			
+		}
+		//entityManager.close();
+			return flag;
+		
+		}
+
+	@Override
+	public int saveProduct(ProductDetails productDetails) throws GrizzleException {
+		// TODO Auto-generated method stub
+		entityManager=JpaUtil.getEntityManger();
+		EntityTransaction t=	entityManager.getTransaction();
+		t.begin();
+		entityManager.merge(productDetails);
+		t.commit();
+		//entityManager.close();
+		return 0;
+	}
+
+	@Override
+	public List<ProductDetails> getProductDetails() throws GrizzleException {
+		List<ProductDetails>  list=null;
+		entityManager=JpaUtil.getEntityManger();
+		TypedQuery<ProductDetails> query=	entityManager.createQuery("Select p from ProductDetails p",ProductDetails.class);
+		
+		 list=	query.getResultList();
+			entityManager=JpaUtil.getEntityManger();
+		return list;
+	}
+
+	@Override
+	public ProductDetails getProductDetails(int productId) throws GrizzleException {
+		// TODO Auto-generated method stub
+		entityManager=JpaUtil.getEntityManger();
+		ProductDetails details=	entityManager.find(ProductDetails.class, productId);
+		//entityManager.close();
+		return details;
+	}
+
+	@Override
+	public int deleteProductDetails(int productId) throws GrizzleException {
+		int flag=0;
+		entityManager=JpaUtil.getEntityManger();
+		EntityTransaction t=	entityManager.getTransaction();
+		 t.begin();
+		 ProductDetails details=	entityManager.find(ProductDetails.class, productId);
+			entityManager.remove(details);
+			t.commit();
+			
+			if(details!=null) {
+				flag=1;
+			}else {
+				
+			}
+			
+		//	entityManager.close();
+		return flag;
+	}
+
+	@Override
+	public int updateProductDetails(ProductDetails productDetails) throws GrizzleException {
+		// TODO Auto-generated method stub
+		entityManager=JpaUtil.getEntityManger();
+		 EntityTransaction t=	entityManager.getTransaction();
+		 t.begin();	
+		 entityManager.merge(productDetails);	
+		//	em.persist(productDetails);
+			t.commit();
+		//	entityManager.close();
+		return 1;
+	}
+
+}
