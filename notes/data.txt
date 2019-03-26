@@ -1,0 +1,57 @@
+create table employee(em_id int(11) primary key auto_increment,
+em_name varchar(20),
+en_dob date,
+em_mobile int(10) unique not null,
+em_salary double,
+em_email varchar(20),
+em_dp_fk int references department(em_dp_id),
+em_ad_fk int not null references address(en_ad_id),
+en_de_fk int references designation(em_de_id));
+
+create table department(em_dp_id int(11) primary key auto_increment,dp_name varchar(15),dp_location varchar(15));
+
+create table address(em_ad_id int(11) primary key auto_increment,ad_street varchar(30),ad_city varchar(15),ad_state varchar(15),ad_pin int(6),ad_country varchar(15));
+
+
+
+create table designation(em_de_id int(11) primary key auto_increment,
+de_name varchar(15));
+
+create table skill(em_sk_id int(11) primary key auto_increment,
+sk_name varchar(10));
+
+create table employee_skillset
+(em_ss_id int(11) primary key auto_increment,
+em_id_fk int references employee(em_id),
+em_sk_id_fk int references skill(em_sk_id));
+
+insert into address values(10001,'thuraipakkam','chennai','TN',600600,'india');
+
+insert into employee(em_name,en_dob,em_mobile,em_salary,em_email,em_dp_fk,em_ad_fk,en_de_fk)values('raju','1990-02-02',1234567890,12345.56,'raju@gmail.com',10,10001,1001);
+
+
+insert into employee_skillset(em_id_fk,em_sk_id_fk) values(1,1);
+
+insert into department values(40,'bo','mumbai');
+insert into designation values(1004,'marketing');
+
+
+						
+
+					JOINS;
+
+ select e.em_name as name,a.ad_street as street,de.de_name as designation,group_concat(s.sk_name) as skills
+from employee e join department d join address a join designation de join skill s join employee_skillset esk
+on e.em_dp_fk=d.em_dp_id and e.em_ad_fk=a.em_ad_id and e.en_de_fk=de.em_de_id and s.em_sk_id=esk.em_sk_id_fk and esk.em_id_fk=e.em_id
+group by e.em_id order by e.em_name desc, a.ad_street;
+
+common column
+pk fk;
+
+
+table1 join table2---->pk=fk---->result1
+table1 left join table2---->pk=fk + table1 pk ! not in table2
+
+table1 right join table2
+
+						work:

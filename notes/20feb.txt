@@ -1,0 +1,9 @@
+1nf - 
+2nf - functional dependency,dividing the table
+3nf-  a->b->c transitive dependency
+4nf-data anamoliy(delete,update)
+
+
+sql - ddl,dml,tcl-commit and rollback,dcl
+
+e.F codd sql standard

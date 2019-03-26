@@ -1,0 +1,86 @@
+request dispatch
+include
+
+javax.servlet.http
+	httpsession,session interface,httpservletResponse
+	getservletContext()
+	invalidate()
+	
+
+---------------------------------x------------------------------------------
+
+css- 3 ways
+folllowing box model.
+storin data inside req obj - req scope
+session scope
+application scope- is a object of servlet context-interface, it is obj pointing to entire app. (context reload-app reload).
+
+req dispatcher-we can share data from 1 2 1.
+init para -initialisation parameter (servlet copy).
+	tag creation - <init para>
+		    <param name>
+		   </init par>
+		  <context param>- param name(key),param value("value"). xml xml based or key program based setting
+
+ 		      
+servlet config - particular servlet
+1 - 1 context
+------x-------
+we should not display any thing in servlet
+jsp
+access - control,
+view - jsp
+page lan=java. 
+flush
+out.flush
+auto flush
+buffer size should be optimal
+extends , import 
+isELIgnored
+local date
+local time
+HttpJspBase
+implicit jsp variable - req,response,page context ,seesion,page, app,out,config,
+page context - ser(Con,config,sess,getout);
+
+
+tags:
+core tags
+formatting 
+sql
+xml
+jstl functions
+
+
+scope attribute
+<c::choose> - if and else
+<c:foreach>
+
+page directive
+taglibrary
+
+expression language
+
+
+
+"select e.*,a.*,de.*,d.*,group_concat(s.sk_name)"from employee e join department d join address a join designation de join skill s join employee_skillset esk"on e.em_dp_fk=d.em_dp_id and e.em_ad_fk=a.em_ad_id and e.en_de_fk=de.em_de_id and s.em_sk_id=esk.em_sk_id_fk and esk.em_id_fk=e.em_id  group by e.em_id order by e.em_name desc, a.ad_street";
+
+select e.*,a.*,de.*,d.*,group_concat(s.sk_name)as text from employee e join department d join address a join designation de join skill s join employee_skillset esk on e.em_dp_fk=d.em_dp_id and e.em_ad_fk=a.em_ad_id and e.en_de_fk=de.em_de_id and s.em_sk_id=esk.em_sk_id_fk and esk.em_id_fk=e.em_id group by e.em_id order by e.em_name desc, a.ad_street ;
+
+
+
+
+
+--------------x--------------
+Scope
+requestscope
+application scope
+page scope
+page scope
+session scope
+
+view(jsp)--->controller(servlet)--->model(dao)--->connection---->DB
+
+
+creational ,behavioural,structural.
+builder design pattern

@@ -1,0 +1,25 @@
+create table login(username varcher(25),password varchar(25));
+
+create table product(p_id int(11) primary key auto_increment,p_name varchar(20),p_description varchar(500),p_price varchar(20),p_c_fk int references category(c_id),p_b_fk int references brand(b_id);
+
+
+
+create table category(c_id int(11) primary key auto_increment,c_name varchar(20))auto_increment=101;
+
+create table brand(b_id int(11) primary key auto_increment,b_name varchar(20))auto_increment=1001;
+
+
+
+insert into category(c_name)values("mobile"),("laptop");
+
+insert into brand(b_name)values("apple"),("mi"),("philips"),("apsara");
+
+insert into product(p_name,p_description,p_price,p_c_fk,p_b_fk,p_rating,p_availability)values("Note 6 pro","20mp front and 12+5mp back camera","14000","104","1002","4.5","yes");
+
+insert into login values("admin","admin","admin",0);
+create table product_gallery(p_id_fk int(11) references product(p_id),p_img_name varchar(255));
+
+insert into product_gallery values(1,"trimmer.jpeg");
+insert into product_gallery values(2,"laptop.jpeg");
+insert into product_gallery values(3,"pencile.jpeg");
+insert into product_gallery values(4,"mobile.jpeg");

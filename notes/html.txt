@@ -1,0 +1,66 @@
+html.
+
+predefined tags.
+Dom - data object model
+dom parser
+
+
+xml:
+
+own tags.
+xml we can store data and its meta data.
+.DTD - document type definition.(grammer,datatypes for each element)
+Two Datatypes.
+1.pc data - parse char data
+2. c data - char data.
+
+xml is following dtd.
+
+.xsd - xml schema document.(Sequence of tags).It is followed by xsd.people will create it.
+
+web service-xml,jsm.
+
+xml-sop webservice.
+jsm- rest webservice. 
+
+protocol-http,ftp.
+domain,port,path.
+filename.
+
+HTTP STATUS CODE:
+status of http request.
+1xx- informational
+2xx-success message
+3xx- redirects the client to a different URL.
+4xx- indicates an error on the client part.
+5xx- indicates an error on the server part.
+
+200 -The request to the resource was successful and response received.
+301 - resource moved permanentely
+404 - page not found.
+500 - server error . there is an error in server page.
+
+
+javax.servlet
+init()
+service() 
+destroy()
+
+
+
+
+
+ServletRequest(I)
+ServletRequest(I)
+
+servlet(I) ---- init service destroy getservletInfo getServletConfig
+      ^
+       |
+GENRICSERVLEt(c)----> servlet(abstract)----->service()
+
+
+HTTPSERVLET(c)----> doGet(),doPost(),doDelete(),doPut()
+
+servlet config  privide --  web.xml file
+
+lazy loading- we create a req that time only obj created.

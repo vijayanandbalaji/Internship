@@ -1,0 +1,32 @@
+@charset "ISO-8859-1";
+
+
+	form{
+		font-family:Optima, sans-serif;
+		}
+	.main{
+		width:100%;
+		display: block;
+		height: 100%;
+		align: center;
+		text-align:center;
+		background-color: white;
+		align-content: center;
+		vertical-align: middle;
+	}
+	input{
+		 border-radius: 20px;
+	  	 background-color: #F1F1F1;
+	  	 width: 15%;
+		padding: 10px 10px;
+		border: none; 
+		border-width:0px;
+		border-style:solid;
+		font-size: 20px;
+	
+		font-family:Arial, sans-serif;}
+	img{
+		margin-top: 5%;
+		vertical-align:middle;
+		width: 48%;
+		height: 53%;}
