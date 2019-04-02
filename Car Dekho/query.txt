@@ -1,0 +1,16 @@
+CREATE TABLE `car`.`adminlogin` (
+  `a_id` INT(11) NOT NULL DEFAULT 1,
+  `a_name` VARCHAR(45) NOT NULL,
+  `a_password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`a_id`));
+
+
+CREATE TABLE `car`.`userlogin` (
+  `u_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `u_name` VARCHAR(45) NOT NULL,
+  `u_password` VARCHAR(45) NOT NULL,
+  `u_attempt` INT(1) NULL DEFAULT 0,
+  PRIMARY KEY (`u_id`));
+
+
+INSERT INTO `car`.`adminlogin` (`a_id`, `a_name`, `a_password`) VALUES ('1', 'vijay', 'vijay');
